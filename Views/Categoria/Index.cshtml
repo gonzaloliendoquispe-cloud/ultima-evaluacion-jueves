@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Categorías";
+}
+<div class="container mt-4">
+    <h2>Categorías</h2>
+    <a asp-action="Create" class="btn btn-primary mb-3">+ Nueva</a>
+    <table class="table table-bordered">
+        <thead class="table-dark"><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr></thead>
+        <tbody>
+            @if (ViewBag.Categorias != null)
+            {
+                foreach (System.Data.DataRow row in ViewBag.Categorias.Rows)
+                {
+                    <tr>
+                        <td>@row["id"]</td>
+                        <td>@row["nombre"]</td>
+                        <td>@row["descripcion"]</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@row["id"]" class="btn btn-warning btn-sm">Editar</a>
+                            <form asp-action="Delete" asp-route-id="@row["id"]" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

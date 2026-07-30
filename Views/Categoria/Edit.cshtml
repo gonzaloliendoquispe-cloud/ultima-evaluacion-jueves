@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Editar Categoría"; var cat = ViewBag.Categoria;
+}
+<div class="container mt-4">
+    <h2>Editar Categoría</h2>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" name="id" value="@cat["id"]" />
+        <input type="text" name="nombre" class="form-control mb-2" value="@cat["nombre"]" required />
+        <textarea name="descripcion" class="form-control mb-3">@cat["descripcion"]</textarea>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</div>

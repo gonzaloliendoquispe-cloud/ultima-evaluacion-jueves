@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Ventas";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Módulo de Ventas Automáticas</h2>
+
+    @if (ViewBag.ErrorServidor != null)
+    {
+        <div class="alert alert-danger mt-3 mb-4 mx-auto text-center" style="max-width: 900px; background-color: #f8d7da; color: #721c24; font-weight: bold;">
+            ⚠️ @ViewBag.ErrorServidor
+        </div>
+    }
+
+    <!-- Formulario Automático con los productos del Inventario -->
+    <form asp-action="Create" method="post" class="row align-items-end mb-4">
+        @Html.AntiForgeryToken()
+        <div class="col-md-5">
+            <label class="form-label fw-bold">Seleccionar Producto del Inventario</label>
+            <select name="producto_id" class="form-select" required>
+                <option value="">-- Seleccione un producto --</option>
+                @if (ViewBag.ListaProductos != null)
+                {
+                    foreach (System.Data.DataRow prod in ViewBag.ListaProductos.Rows)
+                    {
+                        <option value="@prod["id"]">@prod["nombre"] (Stock: @prod["stock"] - $@prod["precio"])</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Cantidad</label>
+            <input type="number" name="cantidad" class="form-control" value="1" min="1" required />
+        </div>
+        <div class="col-md-4 d-grid">
+            <button type="submit" class="btn btn-success">Registrar Venta Automática</button>
+        </div>
+    </form>
+
+    <!-- Tabla de Ventas -->
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Ventas != null)
+            {
+                foreach (System.Data.DataRow row in ViewBag.Ventas.Rows)
+                {
+                    <tr>
+                        <td>@row["id"]</td>
+                        <td>@row["producto"]</td>
+                        <td>@row["cantidad"]</td>
+                        <td>$@row["total"]</td>
+                        <td>@row["fecha"]</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

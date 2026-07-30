@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Crear Categoría";
+}
+<div class="container mt-4">
+    <h2>Nueva Categoría</h2>
+    <form asp-action="Create" method="post">
+        <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre" required />
+        <textarea name="descripcion" class="form-control mb-3" placeholder="Descripción"></textarea>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

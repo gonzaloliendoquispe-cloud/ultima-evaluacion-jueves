@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Comercializadora";
+}
+
+<div class="container mt-4">
+    <!-- Encabezado del profe -->
+    <div class="text-center">
+        <h2>Módulo IA 301: Unidad III - Acceso a Datos</h2>
+        <p class="text-muted">Probando conexión ADO.NET con MySQL...</p>
+
+        <!-- ALERTA DE SERVIDOR (Se muestra si XAMPP está apagado) -->
+        @if (ViewBag.ErrorServidor != null)
+        {
+            <div class="alert alert-danger mt-3 mb-4 mx-auto" style="max-width: 900px; background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+                <h4 class="alert-heading text-danger mb-2">⚠️ Alerta de Servidor</h4>
+                <p class="mb-0 fw-bold">@ViewBag.ErrorServidor</p>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-success mt-4 mb-5 mx-auto" style="max-width: 900px; background-color: #d1e7dd; border-color: #badbcc;">
+                <h4 class="alert-heading text-success mb-2">Estado del Servidor</h4>
+                <p class="mb-0 text-success">¡Conexión Web exitosa a MySQL usando appsettings.json!</p>
+            </div>
+        }
+
+        <h3 class="mb-5">Comercializadora Arica S.A.</h3>
+    </div>
+
+    <!-- Formulario para Agregar Producto -->
+    <form asp-action="Create" method="post" class="row align-items-end mb-4">
+        <div class="col-md-3">
+            <label class="form-label fw-bold fs-6">Nombre</label>
+            <input type="text" name="nombre" class="form-control" required />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label fw-bold fs-6">Stock</label>
+            <input type="number" name="stock" class="form-control" required />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label fw-bold fs-6">Precio</label>
+            <input type="number" step="0.01" name="precio" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold fs-6">Categoría</label>
+            <select name="descripcion" class="form-select">
+                <option value="Almacenamiento">Almacenamiento</option>
+                <option value="Perifericos">Perifericos</option>
+                <option value="Computadoras">Computadoras</option>
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-success">Agregar</button>
+        </div>
+    </form>
+
+    <!-- Formulario para Buscar Funcional -->
+    <form asp-action="Index" method="get" class="row align-items-end mb-4 justify-content-center">
+        <div class="col-md-4">
+            <label class="form-label fw-bold fs-6">Seleccione una categoría</label>
+            <select name="categoriaBuscar" class="form-select">
+                <option value="Todas">Todas</option>
+                <option value="Almacenamiento">Almacenamiento</option>
+                <option value="Perifericos">Perifericos</option>
+                <option value="Computadoras">Computadoras</option>
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+
+    <!-- Tabla de Productos -->
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Stock</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Productos != null)
+            {
+                foreach (System.Data.DataRow row in ViewBag.Productos.Rows)
+                {
+                    <tr>
+                        <td>@row["id"]</td>
+                        <td>@row["nombre"]</td>
+                        <td>@row["stock"]</td>
+                        <td>$@row["precio"]</td>
+                        <td>@row["descripcion"]</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@row["id"]" class="btn btn-warning btn-sm text-dark fw-bold">✏️ Editar</a>
+                            <form asp-action="Delete" asp-route-id="@row["id"]" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm text-white">🗑️ Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

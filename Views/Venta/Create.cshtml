@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Registrar Venta";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <h2 class="mb-4">Registrar Nueva Venta</h2>
+
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Seleccionar Producto</label>
+            <select name="producto_id" class="form-select" required>
+                <option value="">-- Seleccione un producto --</option>
+                @if (ViewBag.Productos != null)
+                {
+                    foreach (System.Data.DataRow prod in ViewBag.Productos.Rows)
+                    {
+                        <option value="@prod["id"]">@prod["nombre"] (Stock: @prod["stock"] - $@prod["precio"])</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Cantidad a Vender</label>
+            <input type="number" name="cantidad" class="form-control" value="1" min="1" required />
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success fw-bold">Confirmar y Registrar Venta</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

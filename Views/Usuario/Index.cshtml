@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Módulo de Usuarios</h2>
+
+    <!-- La alerta debe ir AQUÍ, fuera de la tabla -->
+    @if (ViewBag.ErrorServidor != null)
+    {
+        <div class="alert alert-danger mt-3 mb-4 mx-auto text-center" style="max-width: 900px; background-color: #f8d7da; color: #721c24; font-weight: bold;">
+            ⚠️ @ViewBag.ErrorServidor
+        </div>
+    }
+
+    <div class="mb-3">
+        <a asp-action="Create" class="btn btn-success">+ Registrar Nuevo Usuario</a>
+    </div>
+
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Correo</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Usuarios != null)
+            {
+                foreach (System.Data.DataRow row in ViewBag.Usuarios.Rows)
+                {
+                    <tr>
+                        <td>@row["id"]</td>
+                        <td>@row["correo"]</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@row["id"]" class="btn btn-warning btn-sm text-dark fw-bold">✏️ Editar</a>
+                            <form asp-action="Delete" asp-route-id="@row["id"]" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm text-white">🗑️ Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
